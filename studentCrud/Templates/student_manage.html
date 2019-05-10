@@ -19,7 +19,9 @@
                     <h1 class="page-header">Manage Student</h1>
                     <div class="row text-right">
                        <div class="col-md-12">
+                           {% if request.role == 'Principal' %}
                             <a class="btn btn-primary" href="{% url 'studentCrud:add_student' %}">Add Student</a>
+                           {% endif %}
                        </div>
                     </div>
                     <hr>
@@ -32,22 +34,24 @@
                                     <tr>
                                         <th>Name</th>
                                         <th>Email</th>
-                                        <th>Mobile No.</th>
+                                        <th>Role</th>
                                         <th class="text-center" colspan="2">Action</th>
                                     </tr>
                                     </thead>
                                     <tbody>
-                                    {% for book in object_list %}
+                                    {% if users %}
+                                    {% for user in users %}
                                     <tr>
-                                        <td>{{ book.name }}</td>
-                                        <td>{{ book.email }}</td>
-                                        <td>{{ book.mob }}</td>
+                                        <td>{{ user.username }}</td>
+                                        <td>{{ user.email }}</td>
+                                        <td>{{ form.role }}</td>
 
-                                        <td class="text-center"><a href="{% url 'studentCrud:student_edit' book.id %}" title="Edit Student"><span class="glyphicon glyphicon-pencil"></span></a></td>
-                                        <td class="text-center"><a href="{% url 'studentCrud:student_delete' book.id %}" title="Delete Student"><span class="glyphicon glyphicon-trash"></span></a></td>
+                                        <td class="text-center"><a href="{% url 'studentCrud:student_edit' user.id %}" title="Edit Student"><span class="glyphicon glyphicon-pencil"></span></a></td>
+                                        <td class="text-center"><a href="{% url 'studentCrud:student_delete' user.id %}" title="Delete Student"><span class="glyphicon glyphicon-trash"></span></a></td>
 
                                     </tr>
                                     {% endfor %}
+                                    {% endif %}
                                     </tbody>
                                 </table>
                             </div>

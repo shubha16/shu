@@ -16,15 +16,11 @@
                     <div class="row">
                         <div class="form-group">
                             <form class="form-horizontal" method="post" id="add" enctype="multipart/form-data">{% csrf_token %}
-
-
-                            <div class="form-group">
                                 <table class="table table-responsive table-bordered">
-                                    {{ form.as_table }}
+                                     {{ user_form.as_table }}
                                 </table>
                                 <input type="submit" class="btn btn-primary" value="submit"/>
-                            </div>
-                        </form>
+                             </form>
                         </div>
                     </div>
                 </section>

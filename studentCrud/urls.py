@@ -6,7 +6,8 @@ from studentCrud import views
 app_name = 'studentCrud'
 
 urlpatterns = [
-    path('', views.login, name='login'),
+    path('', views.registerform, name='registerform'),
+    path('login', views.login, name='login'),
     path('success', views.success, name='success'),
     path('add_student', views.add_student, name='add_student'),
     path('student_edit/<int:pk>',views.student_edit, name='student_edit'),

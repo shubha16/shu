@@ -1,5 +1,6 @@
 from django import forms
-from .models import StudentModel
+from .models import *
+from django.contrib.auth.models import User, Group
 
 
 class StudentForm(forms.ModelForm):
@@ -36,3 +37,49 @@ class StudentForm(forms.ModelForm):
     class Meta():
         model=StudentModel
         fields=['name', 'age', 'address', 'email', 'pin', 'mob']
+
+
+class UserForm(forms.ModelForm):
+        username = forms.CharField(
+            widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Enter Username...'}), required=True,
+            max_length=50)
+        email = forms.CharField(
+            widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Enter Email Id...'}), required=True,
+            max_length=50)
+        first_name = forms.CharField(
+            widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Enter First Name...'}),
+            required=True, max_length=50)
+        last_name = forms.CharField(
+            widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Enter Lasr Name...'}), required=True,
+            max_length=50)
+        password = forms.CharField(
+            widget=forms.PasswordInput(attrs={'class': 'form-control', 'placeholder': 'Enter Password...'}),
+            required=True, max_length=50)
+        confirm_password = forms.CharField(
+            widget=forms.PasswordInput(attrs={'class': 'form-control', 'placeholder': 'Cinfirm Password...'}),
+            required=True, max_length=50)
+        role = forms.ModelChoiceField(queryset=Group.objects.all())
+
+        class Meta():
+            model = User
+            fields = ['username', 'email', 'first_name', 'last_name', 'password']
+            label = {'password': 'password'}
+
+        def __init__(self, *args, **kwargs):
+            if kwargs.get('instance'):
+                initial = kwargs.setdefault('initial', {})
+                if kwargs['instance'].groups.all():
+                    initial['role'] = kwargs['instance'].groups.all()[0]
+                else:
+                    initial['role'] = None
+
+            forms.ModelForm.__init__(self, *args, **kwargs)
+
+        def save(self):
+            password = self.cleaned_data.pop('password')
+            role = self.cleaned_data.pop('role')
+            u = super().save()
+            u.groups.set([role])
+            u.set_password(password)
+            u.save()
+            return u

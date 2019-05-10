@@ -31,7 +31,6 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
-    'students.apps.StudentsConfig',
     'movies.apps.MoviesConfig',
     'django.contrib.admin',
     'django.contrib.auth',
@@ -53,6 +52,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'studentCrud.middlewares.RoleMiddleware'
 ]
 
 ROOT_URLCONF = 'shu.urls'
@@ -60,7 +60,7 @@ ROOT_URLCONF = 'shu.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [r'D:\shu\studentCrud\Templates'],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
